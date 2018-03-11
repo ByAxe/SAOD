@@ -1,86 +1,52 @@
+class Node:
+    def __init__(self, power=None, constant=None, next=None):
+        self.power = power
+        self.constant = constant
+        self.next = next
+
+
 class Polynomial:
     def __init__(self):
         self.head = None
+        self.tail = None
+        self.length = 0
 
-    def add(self, item):
-        item.set_next(self.head)
-        self.head = item
+    def __str__(self):
+        if self.head is not None:
+            current = self.head
+            out = 'Polynomial: ' + str(current.constant) + 'x^' + str(current.power)
+            while current.next is not None:
+                current = current.next
+                out += ' + ' + str(current.constant) + 'x^' + str(current.power)
+            return out
+        return 'Polynomial is empty'
 
-    def search(self, item):
+    def clear(self):
+        self.__init__()
+
+    def add(self, node):
+        if self.head is None:
+            self.head = node
+            self.tail = self.head
+        elif self.tail == self.head:
+            self.tail = node
+            self.head.next = self.tail
+        else:
+            current = node
+            self.tail.next = current
+            self.tail = current
+
+    def search_with_power(self, item):
+        power = item.power
+
         current = self.head
         found = False
+        element = current
+
         while current and not found:
-            if current == item:
+            if current.power == power:
                 found = True
             else:
-                current = current.get_next()
+                current = current.next
 
-        return found
-
-    def is_empty(self):
-        return self.head is None
-
-    def size(self):
-        current = self.head
-        count = 0
-        while current:
-            count += 1
-            current = current.getNext()
-
-        return count
-
-    def meaning(self, x):
-        if self.size == 0:
-            return 0
-
-        current = self.head
-        result = 0
-        while current:
-            result += current.constant * (x ** current.power)
-            current = current.getNext()
-
-        return result
-
-    def __str__(self):
-        print(self.head)
-
-    def __eq__(self, other):
-        size = other.size()
-        head = other.head
-
-        if self.size() != size:
-            return False
-
-        for i in range(size + 1):
-            found = self.search(head)
-
-            if not found:
-                return False
-            else:
-                head = head.get_next()
-
-        return True
-
-
-class Node:
-
-    def __init__(self, power=0, constant=0, sign='x'):
-        self.next = None
-        self.power = power
-        self.constant = constant
-        self.sign = sign
-
-    def get_next(self):
-        return self.next
-
-    def set_next(self, new_next):
-        self.next = new_next
-
-    def __self_string__(self):
-        return '(' + str(self.constant) + self.sign + '^' + str(self.power) + ')'
-
-    def __str__(self):
-        return self.__self_string__() + ' + ' + self.next
-
-    def __eq__(self, other):
-        return self.constant == other.constant and self.power == other.power
+        return element if found else False
