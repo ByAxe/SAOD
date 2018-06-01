@@ -36,7 +36,7 @@ def find_name(drct, name):
     current = drct.first
     while current:
         if current.name == name:
-            return current.name
+            return current.name + ":" + str(current.priority)
         current = current.next
     print("Такого имени нет в очереди.")
 
@@ -75,14 +75,14 @@ if __name__ == '__main__':
     directory = LinkedList()
     inp = ""
     while inp != "end":
-        inp = input("Выберите действие ( добавить(a), удалить(d), найти(f), вывести очередь(p): ")
+        inp = input("Выберите действие (добавить(a), удалить(d), найти(f), вывести очередь(p): ")
         if inp == "a":
             directory.sorted_insert(input("Введите имя: "), input("Введите приоритет: "))
         if inp == "d":
             d_del(directory, input("Введите имя, которое хотите удалить: "))
         if inp == "f":
             n = find_name(directory, input("Введите имя, которое хотите найти: "))
-            print(arr)
+            print(n)
         if inp == "p":
             prt(directory)
         inp = input()
